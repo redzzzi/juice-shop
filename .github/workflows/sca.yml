@@ -19,10 +19,4 @@ jobs:
         run: npm install -g snyk
 
       - name: Run Snyk and Save Report 
-        run: snyk test --json > sca-report.json
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: sca-report
-          path: sca-report.json
+        run: snyk test
