@@ -1,0 +1,30 @@
+name: Software Composition Analysis
+
+on:
+  push:
+    branches: [dev-keeper]
+  pull_request:
+    branches: [dev-keeper]
+
+jobs:
+  sca:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Run Snyk and Save Report 
+        run: |
+          mkdir -p reports
+          snyk test --json > reports/sca-report.json
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: sca-report
+          path: reports/sca-report.json
